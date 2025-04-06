@@ -6,6 +6,7 @@ import {
   Post,
   Put,
   Body,
+  Query,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 
@@ -21,9 +22,10 @@ export class TaskController {
   // Obtener datos de una ruta del local host
   // localhost:3000/tasks
   @Get()
-  getAllTasks() {
+  getAllTasks(@Query() query: any) {
     // buscar en una base de datos
     // peticion a otro backend o api
+    console.log(query);
     return this.tasksService.getTasks();
   }
 
