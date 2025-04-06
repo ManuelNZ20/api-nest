@@ -7,5 +7,12 @@ import { Injectable } from '@nestjs/common';
 export class TasksService {
   getTasks = () => ['Task 1', 'Task 2', 'Task 3'];
 
+  createTask = () => 'Creating task...';
+
+  updateTask = () => 'Updating task...';
+
+  deleteTask = () => 'Deleting task...';
+
+  updateTaskStatus = () => 'Updating task status...';
   // testing = () => 'Testing...';
 }
