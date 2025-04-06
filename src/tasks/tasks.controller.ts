@@ -7,8 +7,11 @@ import {
   Put,
   Body,
   Query,
+  Param,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Controller('/tasks')
 export class TaskController {
@@ -29,15 +32,20 @@ export class TaskController {
     return this.tasksService.getTasks();
   }
 
+  @Get('/:taskId') // localhost:3000/tasks/1
+  getTask(@Param('taskId') taskId: string) {
+    console.log(taskId);
+    return this.tasksService.getTask(parseInt(taskId));
+  }
   @Post() // Enviar datos, aquí se extraen los datos del body de la petición
-  createTask(@Body() task: any) {
-    console.log(task);
+  createTask(@Body() task: CreateTaskDto) {
+    // console.log(task);
     return this.tasksService.createTask(task);
   }
 
   @Put() // Actualizar datos {title: 'title', description: 'description'} -> {title: 'title', description: 'description'}
-  updateTask() {
-    return this.tasksService.updateTask();
+  updateTask(@Body() task: UpdateTaskDto) {
+    return this.tasksService.updateTask(task);
   }
 
   @Delete() // Eliminar datos
