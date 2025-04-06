@@ -8,6 +8,8 @@ import {
   Body,
   Query,
   Param,
+  // UsePipes,
+  // ValidationPipe,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -38,6 +40,7 @@ export class TaskController {
     return this.tasksService.getTask(parseInt(taskId));
   }
   @Post() // Enviar datos, aquí se extraen los datos del body de la petición
+  // @UsePipes(new ValidationPipe()) // Validar datos
   createTask(@Body() task: CreateTaskDto) {
     // console.log(task);
     return this.tasksService.createTask(task);

@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
-  private users = [
+  private users: any = [
     {
       id: 1,
       name: 'John Doe',
@@ -26,4 +27,16 @@ export class UsersService {
   ];
 
   getUsers = () => this.users;
+
+  getUser(id: number) {
+    const userFound = this.users.find((user) => user.id === id);
+    if (!userFound) {
+      return new Error('User not found'); // sino se encuentra el usuario
+    }
+    return userFound;
+  }
+  createUser(user: CreateUserDto) {
+    this.users.push(user);
+    return { ...user, id: this.users.length + 1 };
+  }
 }
