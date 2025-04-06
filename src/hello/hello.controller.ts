@@ -1,5 +1,16 @@
-import { Controller, Get, HttpCode, Req, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  ParseBoolPipe,
+  ParseIntPipe,
+  Query,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
+import { ValidateuserPipe } from './pipes/validateuser/validateuser.pipe';
 // @Controller('hello') // localhost:3000/hello: Para acceder a esta ruta
 @Controller()
 export class HelloController {
@@ -26,5 +37,22 @@ export class HelloController {
   @HttpCode(500) // Cambia el código de estado de la respuesta a 500 indicando que hubo un error interno del servidor
   errorPage() {
     return 'Error route';
+  }
+
+  @Get('ticket/:num') // localhost:3000/number
+  getNumber(@Param('num', ParseIntPipe /* Conversion de tipo */) num: number) {
+    return num + 23; // localhost:3000/ticket/23
+  }
+  @Get('active/:status') // localhost:3000/active/true
+  isUserActive(@Param('status', ParseBoolPipe) status: boolean) {
+    console.log(typeof status); // localhost:3000/active/true
+    return status;
+  }
+
+  @Get('greet')
+  greet(@Query(ValidateuserPipe) query: { name: string; age: number }) {
+    console.log(typeof query.name); // localhost:3000/greet?name=John&age=23
+    console.log(typeof query.age); // localhost:3000/greet?name=John&age=23
+    return `Hello  ${query.name}  you are ${query.age + 10}  years old`; // localhost:3000/greet?name=John&age=23
   }
 }
