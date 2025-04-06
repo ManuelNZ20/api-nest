@@ -8,9 +8,11 @@ import {
   Query,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ValidateuserPipe } from './pipes/validateuser/validateuser.pipe';
+import { AuthGuard } from './guards/auth/auth.guard';
 // @Controller('hello') // localhost:3000/hello: Para acceder a esta ruta
 @Controller()
 export class HelloController {
@@ -44,12 +46,14 @@ export class HelloController {
     return num + 23; // localhost:3000/ticket/23
   }
   @Get('active/:status') // localhost:3000/active/true
+  @UseGuards(AuthGuard) // Protege la ruta con el guardia de autenticación y autorización cumpliendo la funcion de middleware
   isUserActive(@Param('status', ParseBoolPipe) status: boolean) {
     console.log(typeof status); // localhost:3000/active/true
     return status;
   }
 
   @Get('greet')
+  @UseGuards(AuthGuard) // Protege la ruta con el guardia de autenticación y autorización cumpliendo la funcion de middleware
   greet(@Query(ValidateuserPipe) query: { name: string; age: number }) {
     console.log(typeof query.name); // localhost:3000/greet?name=John&age=23
     console.log(typeof query.age); // localhost:3000/greet?name=John&age=23
